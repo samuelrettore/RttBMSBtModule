@@ -19,6 +19,7 @@ WiFiUDP udp;//Cria um objeto da classe UDP.
 static WiFiClient network;
 //Global
 MqttClient *mqtt = NULL;
+
 //NTPClient
 int16_t utc = 3;
 //NTP CLient
