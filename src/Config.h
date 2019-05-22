@@ -12,7 +12,7 @@ email -> rettore@gmail.com
 
 Definicao de Quantos S(QUANTIDADE_CELULAS) ...ou celulas tem o Sistema
 Por exemplo um Projeto de 2S(duas celulas) segue o seguinte mapeamento
-A8 para leitura de tensao e 31 para controle da celulas:
+36 para leitura de tensao e 31 para controle da celulas:
 A8 -> 31
 A9 -> 33
 ......
@@ -43,7 +43,7 @@ O sistema ira definir a porta A14 para o leitor de tensão da celula 7 e o 43 ac
 Abaixo pré definido sistema de 7S ou 7 celulas
 */
 //Aqui define o tamanho do seu banco em celulas ou S
-#define QUANTIDADE_CELULAS 1
+#define QUANTIDADE_CELULAS 7
 
 //Pinos entrada
 #define INPUT_PORT {36, 39, 34, 35, 32, 33, 25}
@@ -72,55 +72,16 @@ leitura de tensao
 #define MAX_VOLTAGE_CELL 13.8
 
 /*
-Porta controla rele contatora ou inversor
-Porta que desliga dispotivo quando tensao minima atingida.
-*/
-#define CONTATORA_INVERSOR 30
-
-/*
 Dados de leitura com divisor de tensao
 */
 //Numero de amostras na leitura
-#define AMOSTRAS 4000
-
-//Metodo Base de relacao
-//#define RELACAO 18.18500 //11.86, old methodo Deprecated
-//#define RELACAO 17.72637 //4.2
-
-/*
-Dados MQTT
-*/
-//#define BROKER_MQTT "iot.eclipse.org"
-//#define MQTT_LOG_ENABLED 1
-#define BROKER_MQTT "mqtt.serhmatica.com.br"
-#define BROKER_PORT 1883
-#define ID_MQTT "Esp32-v2-MQTT"
-// #define MQTT_VERSION MQTT_VERSION_3_1_1
-
-//Esta Chave deve ser criada peloAPP RTTHome e atualizada aqui para comunicação.
-#define MQTT_KEY "376f0d9743"
-//Definicoes MQTT
-//#define MQTT_DATA "376f0d9743/dados"
-//Dev
-#define MQTT_DATA "376f0d9743/dados"
-#define MQTT_SONOFF1 "376f0d9743/sonoff/SENSOR"
-
-//#define MQTT_RESEND1 "/sonoff1/SENSOR"
-
-//#define MQTT_TOPIC "376f0d9743/bateria"
-//Topico Sonoff Concessionaria
-//#define MQTT_TOPIC_SONOFF_CON "376f0d9743/sonoff/SENSOR"
-
-//NTP Server
-#define NTPSERVER "gps.ntp.br"
-
-/*
-Outros dados
-*/
-//Configuracoes placa de rede.
-//#define W5100_CS  10
-#define SDCARD_CS 4
+#define AMOSTRAS 2000
 
 //Velocidade Serial Arduino
 #define VELOCIDADE_SERIAL_ARDUINO 115200
 #define LED_PLACA 2
+
+//Dados Bluehooth
+#define SERVICE_UUID   "ab0828b1-198e-4351-b779-901fa0e0371e"
+#define CHARACTERISTIC_UUID_RX  "4ac8a682-9736-4e5d-932b-e9b31405049c"
+#define CHARACTERISTIC_UUID_TX  "0972EF8C-7613-4075-AD52-756F33D4DA91"
