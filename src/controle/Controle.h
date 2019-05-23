@@ -20,6 +20,5 @@ private:
   void controlaSaidas();
   BancoBateria* _bateria;
   int vbat_tensao = 0;
-  bool deviceConnected = false;
 };
 #endif

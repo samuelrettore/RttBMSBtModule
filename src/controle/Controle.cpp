@@ -4,17 +4,30 @@
 #include "../objetos/BancoBateria.h"
 
 //Bluhtooth
-#include <BLEServer.h>
 #include <BLEDevice.h>
+#include <BLEServer.h>
+#include <BLEUtils.h>
+#include <BLE2902.h>
 
 //Json
 #include <ArduinoJson.h>
-
+bool deviceConnected = false;
 BLECharacteristic *characteristicTX;
-
+int contador = 0;
 //Construtor
 Controle::Controle(){
 }
+
+//callback para receber os eventos de conexão de dispositivos
+class ServerCallbacks: public BLEServerCallbacks {
+  void onConnect(BLEServer* pServer) {
+    deviceConnected = true;
+  };
+
+  void onDisconnect(BLEServer* pServer) {
+    deviceConnected = false;
+  }
+};
 
 /**
 * Metodo inicialização do modulo
@@ -36,7 +49,26 @@ void Controle::ativaRedeBluethooth(){
   Serial.println("Ativando Bluehooth");
   // Create the BLE Device
   BLEDevice::init("Bateria-module"); // nome do dispositivo bluetooth
+  // Create the BLE Server
+  BLEServer *server = BLEDevice::createServer(); //cria um BLE server
 
+  server->setCallbacks(new ServerCallbacks()); //seta o callback do server
+
+  // Create the BLE Service
+  BLEService *service = server->createService(SERVICE_UUID);
+
+  // Create a BLE Characteristic para envio de dados
+  characteristicTX = service->createCharacteristic(
+    CHARACTERISTIC_UUID_TX,
+    BLECharacteristic::PROPERTY_NOTIFY
+  );
+
+  characteristicTX->addDescriptor(new BLE2902());
+  service->start();
+  // Start advertising (descoberta do ESP32)
+  server->getAdvertising()->start();
+
+  delay(2000);
 }
 
 /*
@@ -162,4 +194,13 @@ verifica referencias de leitura do calculo
 void Controle::ciloProcessamento(){
   atualizaDadosLeitura();
   controlaSaidas();
+  if(deviceConnected){
+    // Let's convert the value to a char array:
+    std::string valor = "Olaaa ";
+    characteristicTX->setValue(contador); //seta o valor que a caracteristica notificará (enviar)
+    characteristicTX->notify(); // Envia o valor para o smartphone
+    Serial.println("Envia valor");
+    contador++;
+    delay(1000);
+  }
 }
