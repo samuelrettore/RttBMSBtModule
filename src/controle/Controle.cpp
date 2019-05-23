@@ -201,6 +201,6 @@ void Controle::ciloProcessamento(){
     characteristicTX->notify(); // Envia o valor para o smartphone
     Serial.println("Envia valor");
     contador++;
-    delay(1000);
+    //delay(1000);
   }
 }
