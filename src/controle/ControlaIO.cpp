@@ -29,7 +29,11 @@ double ControlaIO::lePortaCalculoResistor(uint8_t portaAnalogica, bool filtro) {
   //Le Media
   int x = AMOSTRAS;
   for(int i = 1; i<=x;i++){
+    if(filtro){
+      value += f6_semPow(analogRead(portaAnalogica));
+    }else{
       value += analogRead(portaAnalogica);
+    }
   }
   value = value/AMOSTRAS;
   //Fim Media
@@ -40,6 +44,8 @@ double ControlaIO::lePortaCalculoResistor(uint8_t portaAnalogica, bool filtro) {
   }else{
     vin += FATOR_CORRECAO;
   }
+  Serial.print("Filtro == ");
+  Serial.println(filtro);
   return vin;
 }
 /*

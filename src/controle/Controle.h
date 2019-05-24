@@ -13,11 +13,18 @@ public:
   Controle();
   void inicializaModulo(BancoBateria* bateria);
   void calibraInicio();
-  void ativaRedeBluethooth();
+  void ativaRedeWIFI();
+  void ativaMQTT();
+  void configuraMQTT();
   void ciloProcessamento();
+  void MqttEnviaDados();
+  void verificaRede();
+  static void processaMessage(MqttClient::MessageData& md);
 private:
   void atualizaDadosLeitura();
   void controlaSaidas();
+  //static void MqttCallback();
+  static void MqttSendMessage(String topico, String mensagem);
   BancoBateria* _bateria;
   int vbat_tensao = 0;
 };
